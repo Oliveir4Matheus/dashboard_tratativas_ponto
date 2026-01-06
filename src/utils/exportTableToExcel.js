@@ -288,10 +288,12 @@ export const exportTableToExcel = (allData) => {
     })
   }
 
-  // 2.4. Folgas Trabalhadas
+  // 2.4. Folgas Trabalhadas (apenas folgas com marcação de entrada ou saída)
   const folgasTrabalhadas = allData.filter(item => {
     const descricao = (item.descricao_horario || '').toLowerCase()
-    return descricao.includes('dsr') || descricao.includes('folga')
+    const isFolga = descricao.includes('dsr') || descricao.includes('folga')
+    const temMarcacao = item.inicio || item.termino
+    return isFolga && temMarcacao
   })
 
   if (folgasTrabalhadas.length > 0) {
