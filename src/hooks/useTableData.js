@@ -23,10 +23,12 @@ export function useTableData() {
 
     const map = new Map()
 
-    // 1. Folgas trabalhadas
+    // 1. Folgas trabalhadas (apenas com marcação de entrada ou saída)
     allOcorrencias.forEach(item => {
       const descricao = (item.descricao_horario || '').toLowerCase()
-      if (descricao.includes('dsr') || descricao.includes('folga')) {
+      const isFolga = descricao.includes('dsr') || descricao.includes('folga')
+      const temMarcacao = item.inicio || item.termino
+      if (isFolga && temMarcacao) {
         const key = `${item.id}` // Usar ID único do registro
         if (!map.has(key)) map.set(key, [])
         map.get(key).push('folgas_trabalhadas')

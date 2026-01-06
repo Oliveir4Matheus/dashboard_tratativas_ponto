@@ -13,10 +13,12 @@ function PieChartOcorrenciasEspeciais() {
   const processedData = (() => {
     if (!filteredData || filteredData.length === 0) return []
 
-    // 1. Folgas trabalhadas
+    // 1. Folgas trabalhadas (apenas com marcação de entrada ou saída)
     const folgasTrabalhadas = filteredData.filter(item => {
       const descricao = (item.descricao_horario || '').toLowerCase()
-      return descricao.includes('dsr') || descricao.includes('folga')
+      const isFolga = descricao.includes('dsr') || descricao.includes('folga')
+      const temMarcacao = item.inicio || item.termino
+      return isFolga && temMarcacao
     })
 
     // 2. Horas extras acima de 6 horas
